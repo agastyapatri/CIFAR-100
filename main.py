@@ -46,24 +46,20 @@ if __name__ == "__main__":
     img = Explorer(trainloader).visualize(idx = 0, channel = 0, show=False)
 
     # 2. 
-    mlp = MultiLayerPerceptron(input_size=3072, hidden_size=[2048, 1024, 512], output_size=100)
+    mlp = MultiLayerPerceptron(input_size=3072, hidden_size=[2048, 1024, 512, 256], output_size=100)
     mlp_net = mlp.network()
-
-    # predictions = mlp_net(testdata)
 
 
     # 3.
-    train = Trainer(num_epochs=100, learning_rate=0.01, momentum=0.9, loss_fn="MSE")
-    train.train_network(network=mlp_net, dataloader=trainloader, optimizer="Adam")
-    
-
-     
+    train = Trainer(num_epochs=1000, learning_rate=1e-6, momentum=0.9, loss_fn="MSE")
+    train.train_network(network=mlp_net, dataloader=trainloader, optimizer="SGD")
 
     # 4. 
 
     # 5. 
 
     # 6. 
+    # test = Tester()
 
 
 
