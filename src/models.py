@@ -43,8 +43,13 @@ class MultiLayerPerceptron(nn.Module):
             nn.Linear(self.hidden_size[1], self.hidden_size[2], dtype=torch.float32),
             nn.LeakyReLU(),
 
+
+            # Hidden Layer 3
+            nn.Linear(self.hidden_size[2], self.hidden_size[3], dtype=torch.float32),
+            nn.LeakyReLU(),
+
             # OutPut Layer
-            nn.Linear(self.hidden_size[2], self.output_size, dtype=torch.float32),
+            nn.Linear(self.hidden_size[3], self.output_size, dtype=torch.float32),
             nn.LogSoftmax(dim=1)
         )
         return mlp 

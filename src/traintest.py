@@ -2,12 +2,14 @@
 Python class to train and test any given model 
 """
 
-from cProfile import label
 from email.mime import image
 import torch 
+torch.manual_seed(0)
 import torch.nn as nn 
 import numpy as np 
-from time import time
+from time import sleep, time
+
+
 
 class Trainer(nn.Module):
     """
@@ -55,6 +57,9 @@ class Trainer(nn.Module):
         :params dataloader: torch.utils.data.DataLoader object
         :params optimizer: optimizer of the weight/bias convergence.
         """
+
+        network = network.train()
+
         training_loss = []
         training_accuracy = []
 
@@ -63,6 +68,9 @@ class Trainer(nn.Module):
 
         elif optimizer == "Adam":
             optimizer = torch.optim.Adam(network.parameters(), lr=self.learning_rate)
+
+        else: 
+            raise Exception("Choose between Stochastic Gradient Descent and Adam Optimizers")
 
         
     
@@ -79,8 +87,6 @@ class Trainer(nn.Module):
                 optimizer.zero_grad()
                 predictions = torch.max(network(image_batch), dim=1)[0].to(torch.float32)
 
-                
-
 
                 with torch.autograd.set_detect_anomaly(True):
                     
@@ -90,30 +96,38 @@ class Trainer(nn.Module):
                     # Finding Gradients (Backpropagation)
                     loss.backward(retain_graph=True)
 
-                    # # Updating Weights and Biases
+                    # Updating Weights and Biases
                     optimizer.step()     
 
                 running_loss += loss.item() 
-
-                print(running_loss)
-                break 
-
-
-
-            if epoch % 10 == 0:
-                print(f"Epoch {epoch}: Training Loss = x, Training Accuracy = y")
-
                 
-            break                 
+                # TEMPORARY: Training for just one batch 
+                break
+
+            training_loss.append(running_loss/len(dataloader))
+            
+            
+
+            if epoch%50 == 0:
+                print(f"Epoch {epoch} : Training Loss = {round(training_loss[epoch], 6)}")
 
 
 
+        print(f"Training Done! Final Training Loss is : {training_loss[-1]}")
 
 
-        
 
 
 class Tester(nn.Module):
+    """
+    Testing the neural network 
+    """ 
+
+    def __init__(self):
+        super().__init__()
+        
+    def test_model(self):
+        pass 
     pass 
 
 
