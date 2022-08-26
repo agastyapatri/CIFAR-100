@@ -10,12 +10,9 @@ import torch.nn as nn
 import matplotlib.pyplot as plt
 
 # Custom Imports 1
-from src.load import Tensor
-from src.explore import Explorer
 from src.traintest import Trainer, Tester
-
+from src.loadvis import Loader
 # Custom Imports 2
-from src.models import MultiLayerPerceptron
 from src.models import ConvolutionalNetwork
 
 
@@ -39,29 +36,12 @@ if __name__ == "__main__":
 
     path ="/home/agastya123/PycharmProjects/CIFAR-100/data"
 
-    # 1 a. 
-    trainloader, testloader = Tensor(PATH=path, num_batches=64).getdata()
-    
-    # 1 b. 
-    img = Explorer(trainloader).visualize(idx = 0, channel = 0, show=False)
+    # 1.  Loading the data 
+    trainloader, testloader = Loader(PATH=path, num_batches=128).getdata()
 
-    # 2. 
-    mlp = MultiLayerPerceptron(input_size=3072, hidden_size=[2048, 1024, 512, 256], output_size=100)
-    mlp_net = mlp.network()
-
-
-    # 3.
-    train = Trainer(num_epochs=1000, learning_rate=1e-6, momentum=0.9, loss_fn="MSE")
-    train.train_network(network=mlp_net, dataloader=trainloader, optimizer="SGD")
-
-    # 4. 
-
-    # 5. 
-
-    # 6. 
-    # test = Tester()
-
-
+    # 2. Defining the Network 
+    model = ConvolutionalNetwork(input_channels=32, output_size=100)
+     
 
 
     

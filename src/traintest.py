@@ -5,115 +5,47 @@ Python class to train and test any given model
 from email.mime import image
 import torch 
 torch.manual_seed(0)
+
 import torch.nn as nn 
 import numpy as np 
 from time import sleep, time
+dtype = torch.float32
 
 
 
 class Trainer(nn.Module):
     """
-    Training Neural Networks.
-        
-    1. Params:
-
-        1.1 num_epochs : The number of training iterations
-        1.2 learning_rate : The rate at which the gradients converge to the global minimum.
-        1.3 momentum : idk
-    
-    
-    2. Methods:
-
-        2.1 train(): Training any network
-
-            :params network: Neural Nets in the form of nn.Sequential objects.
     """
     
     
-    
-    def __init__(self, num_epochs, learning_rate, momentum, loss_fn = None):
+    def __init__(self, network, num_epochs, learning_rate, momentum):
         super().__init__()
+
+        self.network = network 
         self.num_epochs = num_epochs
         self.learning_rate = learning_rate
         self.momentum = momentum
         
-        if loss_fn == "CEL":
-            self.criterion = nn.CrossEntropyLoss() 
-        
-        elif loss_fn == "MSE":
-            self.criterion = nn.MSELoss()
-        
-        else:
-            raise Exception("Choose between CrossEntropyLoss (CEL) and Mean Squared Error(MSE)")
+        self.loss_fun = nn.CrossEntropyLoss()
+        self.optim = torch.optim.SGD(self.network.parameters(), lr = self.learning_rate, momentum=0.9)
 
 
 
-        
-    def train_network(self,  network, dataloader, optimizer):
-        
+    def train_one_epoch(self, dataloader, epoch):
         """
-        :params arch: Type of network architecture
-        :params network: NN defined in Pytorch 
-        :params dataloader: torch.utils.data.DataLoader object
-        :params optimizer: optimizer of the weight/bias convergence.
+            Function to train a single epoch of the training cycle
         """
+        self.network.train(True)
+        running_loss = 0.0 
+        num_batches = len(dataloader) 
 
-        network = network.train()
-
-        training_loss = []
-        training_accuracy = []
-
-        if optimizer == "SGD":
-            optimizer = torch.optim.SGD(network.parameters(), lr=self.learning_rate, momentum=self.momentum)
-
-        elif optimizer == "Adam":
-            optimizer = torch.optim.Adam(network.parameters(), lr=self.learning_rate)
-
-        else: 
-            raise Exception("Choose between Stochastic Gradient Descent and Adam Optimizers")
-
-        
-    
-        # Core Training 1: Iterating over all the Epochs
-        for epoch in range(self.num_epochs):
-            running_loss = 0.0
-
-            
-            # Core Training 2: Iterating over each batch 
-            for idx, data in enumerate(dataloader):
-                image_batch, label_batch = data
-
-                # setting the gradients to 0 before training the batch. 
-                optimizer.zero_grad()
-                predictions = torch.max(network(image_batch), dim=1)[0].to(torch.float32)
-
-
-                with torch.autograd.set_detect_anomaly(True):
-                    
-                    # Finding Loss
-                    loss = self.criterion(predictions, label_batch.to(torch.float32))
-
-                    # Finding Gradients (Backpropagation)
-                    loss.backward(retain_graph=True)
-
-                    # Updating Weights and Biases
-                    optimizer.step()     
-
-                running_loss += loss.item() 
-                
-                # TEMPORARY: Training for just one batch 
-                break
-
-            training_loss.append(running_loss/len(dataloader))
-            
-            
-
-            if epoch%50 == 0:
-                print(f"Epoch {epoch} : Training Loss = {round(training_loss[epoch], 6)}")
+        for idx, data in enumerate(dataloader):
+            image_batch, label_batch = data 
+            print(len(image_batch), len(label_batch))
+            break 
 
 
 
-        print(f"Training Done! Final Training Loss is : {training_loss[-1]}")
 
 
 
@@ -126,9 +58,20 @@ class Tester(nn.Module):
     def __init__(self):
         super().__init__()
         
-    def test_model(self):
+    def test_model(self, dataloader):
+
+        """
+        """
+
+        images, labels = next(iter(dataloader))
+
+
         pass 
-    pass 
+
+
+
+
+     
 
 
 

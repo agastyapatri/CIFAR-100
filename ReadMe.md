@@ -32,7 +32,7 @@ A bit of an issue I faced was regarding PyTorch's handling of datatypes. _Everyt
 
 **Note: Training for one batch**
 The woes that are dogged are those of many variables. To alleviate some of this confusion, I trained the network on just one batch, for all the training epochs. Referring to Karpathy's advice, overfitting on just one batch verifies that a lowest possible loss can be achieved. An added benefit is a quicker testing cycle, as well as observing a perceptible convergence. 
-
+https://towardsdatascience.com/designing-your-neural-networks-a5e4617027ed
 **Initial Parameters Used** are as follows: 
 
 | **Hyperparameter**     |   **Configuration** |
@@ -51,7 +51,31 @@ With this configuration, the training loss oscillates every ~150 epochs. Diagnos
 
 
 
-### _**2.2 Creating a (hopefully better) Convolutional Neural Network**_
+### _**2.2 Creating a (hopefully better) Convolutional Neural Network (CNN)**_
+
+Now, the meat of this project. Creating a Convolutional Neural Network will help in detecting the features in images. 
+
+
+**Tentative Struture of the CNN:**
+
+
+
+
+
+
+
+
+
+
+| **Hyperparameter**     |   **Configuration** |
+|------------------------|---------------------|
+| Hidden Layers          | 3                   |
+| Learning Rate          |     0.0001          |
+| Training Epochs        |     1000            |
+| Batch Size             |       64            |
+| Optimizer              | Adam                |
+| Loss Function          | MeanSquaredError    |
+
 
 
 
@@ -64,11 +88,32 @@ _Write about the results obtained. Should be in the form below:_
 | Model 2                | Result 2            |
 
 ## **4. References**
-_Cite every resource that guided this enterprise._
+_A quasi exhaustive list of resources that guided this enterprise._
+1. [Microsoft Documentation on Training Image Classifiers](https://docs.microsoft.com/en-us/windows/ai/windows-ml/tutorials/pytorch-train-model)
 
-## 5. Structure of this Repository 
-_Talk about the layout of the repo. What each directory relates to and so forth._
+2. [PyTorch Documentation](https://pytorch.org/tutorials/recipes/recipes/defining_a_neural_network.html)
+
+3. [Batch Normalization on Wikipedia](https://en.wikipedia.org/wiki/Batch_normalization)
+
+4. [Andrej Karpathy's Recipe for Training Neural Networks](https://karpathy.github.io/2019/04/25/recipe/)
 
 
 
+
+## **Notes (Not to be included)**
+
+_A CNN is a class of neural networks defined as multilayered NNs designed to detect complex features in data._
+
+1. **The Convolutional Layer:** The Convolution layer is a main layer of a CNN which helps us detect features in images. Each of the layers has a number of channels to detect specific features in images, and a number of kernels to define the size of the detected feature. 
+   In this case, each image is a tensor with dimensions (3 x 32 x 32) 
+
+
+2. **Kernel:** The kernel defines the size of the image / detected feature by applying a filter to the image in question. The most general case would be the kernel being the size of the image. _In this case, the kernel size is 32, since each image is (32x32)_
+
+3. **Batch Normalization:** Defined as a layer in the NN that normalizes the input recieved from a previous layer. This is supposed to make the training of the NN faster and more stable.
+
+4. **Max Pooling:** An operation that calculates the maximum value of a patch of pixels, and uses it to create a downsampled feature map. It is usually used after a Convolutional Layer. Max Pooling is done in part ot help overfitting by providing an abstract form of representation. It also reduces the computational cost by reducing the number of parameters that need to be learned. 
+    _MaxPool layer will help us to ensure that the location of an object in an image will not affect the ability of the NN to detect specific features._
+
+5. **Regularization:** 
 
