@@ -51,11 +51,13 @@ class TrainTest(nn.Module):
 
             running_loss += loss.item()
             
+            
             # reporting after one epoch 
             if (idx + 1)%num_batches == 0:
                 # calculating average loss
                 avg_epoch_loss = running_loss / num_batches
                 print(f"Training Epoch: {epoch +1}, Average training loss = {avg_epoch_loss}")
+            
 
         return self.network, avg_epoch_loss
 
@@ -83,14 +85,26 @@ class TrainTest(nn.Module):
         return trained_network, training_loss 
 
 
+    def testmodel(self, trained_net, loader):
+        """
+        Testing a model 
+        1. load network 
+        2. load testing data
+        3. find testing loss for all the batches for one epoch. Copy the train_one_epoch method.
+        """
+        trained_net.eval()
+        running_loss = 0.0
+        num_batches = len(loader)
+        
+        for idx, data in enumerate(loader):
+            image_batch, label_batch = data 
 
+            output = trained_net(image_batch)
+            loss = self.loss_fun(output, label_batch)
+            running_loss += loss.item()
 
-
-
-
-
-            
-            
+        avg_testing_loss = running_loss / num_batches
+        print(f"Average Testing Loss for {num_batches} batches is : {round(avg_testing_loss, 6)}")
 
 
 

@@ -60,18 +60,12 @@ Now, the meat of this project. Creating a Convolutional Neural Network will help
 
 
 
-
-
-
-
-
-
-
 | **Hyperparameter**     |   **Configuration** |
 |------------------------|---------------------|
-| Hidden Layers          | 3                   |
-| Learning Rate          |     0.0001          |
-| Training Epochs        |     1000            |
+| CONV Layers          |             3       |
+|FC Layers               |          3          |
+| Learning Rate          |     1e-3          |
+| Training Epochs        |     100          |
 | Batch Size             |       64            |
 | Optimizer              | Adam                |
 | Loss Function          | MeanSquaredError    |
@@ -79,15 +73,38 @@ Now, the meat of this project. Creating a Convolutional Neural Network will help
 
 
 
-## **3. Results and Discussion** 
-_Write about the results obtained. Should be in the form below:_
+## **3. Experimentation**
+
+_Baseline Training Loss after the first training cycle of 100 epochs = 4.59. This section is about experiments done to improve performance._
+
+1. **Reducing batch size, Increasing learning rate:**
+    Batch size from 128 to 64, and Learning rate from 1e-5 to 1e-3 makes the network converge faster. 
+        * Training Loss at the end of 100 epochs is : 0.015348
+        * Average Testing Loss for 157 batches is : 6.233311. 
+
+    Clearly, the network has overfit massively to the training data. The testing loss is actually _more_ than it was when the network was completely untrained. Nevertheless, performing well on the training data is not a bad start. Karpathy's advice is to pick a large enough model that overfits on the training data and then regularize. Who am I to disagree?
+    
+2. **Increasing the Depth of the network:**
+3. **Regularization**
+4.  
+
+
+
+
+
+
+## **4. Results and Discussion** 
+_Write about the results obtained. Should be of the form below:_
 
 | **Model Architecture** | **Metric Obtained** |
 |------------------------|---------------------|
 | Model 1                | Result 1            |
 | Model 2                | Result 2            |
 
-## **4. References**
+
+
+
+## **5. References**
 _A quasi exhaustive list of resources that guided this enterprise._
 1. [Microsoft Documentation on Training Image Classifiers](https://docs.microsoft.com/en-us/windows/ai/windows-ml/tutorials/pytorch-train-model)
 
@@ -100,9 +117,13 @@ _A quasi exhaustive list of resources that guided this enterprise._
 
 
 
+
+
+
+
 ## **Notes (Not to be included)**
 
-_A CNN is a class of neural networks defined as multilayered NNs designed to detect complex features in data._
+_A CNN is a class of neural networks defined as multilayered NNs designed to detect complex features in data. Below are a list of definintions_
 
 1. **The Convolutional Layer:** The Convolution layer is a main layer of a CNN which helps us detect features in images. Each of the layers has a number of channels to detect specific features in images, and a number of kernels to define the size of the detected feature. 
    In this case, each image is a tensor with dimensions (3 x 32 x 32) 
@@ -116,4 +137,7 @@ _A CNN is a class of neural networks defined as multilayered NNs designed to det
     _MaxPool layer will help us to ensure that the location of an object in an image will not affect the ability of the NN to detect specific features._
 
 5. **Regularization:** 
+
+
+
 

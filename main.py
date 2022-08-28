@@ -37,16 +37,22 @@ if __name__ == "__main__":
     path ="/home/agastya123/PycharmProjects/CIFAR-100/data"
 
     # 1.  Loading the data 
-    trainloader, testloader = Loader(PATH=path, num_batches=128).getdata()
+    trainloader, testloader = Loader(PATH=path, num_batches=64).getdata()
 
     # 2. Defining the Network 
     model = ConvolutionalNetwork(input_channels=3, output_size=100)
     CNN = model.network()
+    
+    
 
     # 3. Training the Network 
-    traintest = TrainTest(network=CNN, num_epochs=100, learning_rate=1e-5, momentum=0.9)
+    traintest = TrainTest(network=CNN, num_epochs=100, learning_rate=1e-3, momentum=0.9)
+    # trained_net, training_loss = traintest.train_all_epochs(dataloader=trainloader)
 
-    trained_net, training_loss = traintest.train_all_epochs(dataloader=trainloader)
+
+    # 4. Testing the trained network on hitherto unseen data.
+    # CNN.load_state_dict(torch.load("/home/agastya123/PycharmProjects/CIFAR-100/figures-results/cifarclassifier.pth"))
+    # traintest.testmodel(trained_net=CNN, loader=testloader)
      
 
 
