@@ -2,21 +2,18 @@
 Python class to train and test any given model 
 """
 
-from email.mime import image
+
 import torch 
 torch.manual_seed(0)
 
 import torch.nn as nn 
 import numpy as np 
-from time import sleep, time
+import time 
 dtype = torch.float32
 
 
 
-class Trainer(nn.Module):
-    """
-    """
-    
+class TrainTest(nn.Module):
     
     def __init__(self, network, num_epochs, learning_rate, momentum):
         super().__init__()
@@ -27,7 +24,8 @@ class Trainer(nn.Module):
         self.momentum = momentum
         
         self.loss_fun = nn.CrossEntropyLoss()
-        self.optim = torch.optim.SGD(self.network.parameters(), lr = self.learning_rate, momentum=0.9)
+        self.optim = torch.optim.SGD(self.network.parameters(), 
+        lr = self.learning_rate, momentum=0.9)
 
 
 
@@ -38,43 +36,66 @@ class Trainer(nn.Module):
         self.network.train(True)
         running_loss = 0.0 
         num_batches = len(dataloader) 
+        
 
         for idx, data in enumerate(dataloader):
             image_batch, label_batch = data 
-            print(len(image_batch), len(label_batch))
-            break 
+            self.optim.zero_grad()
+            
+            output = self.network(image_batch) 
+            loss = self.loss_fun(output, label_batch)
+            
+            # backprop 
+            loss.backward()
+            self.optim.step()
+
+            running_loss += loss.item()
+            
+            # reporting after one epoch 
+            if (idx + 1)%num_batches == 0:
+                # calculating average loss
+                avg_epoch_loss = running_loss / num_batches
+                print(f"Training Epoch: {epoch +1}, Average training loss = {avg_epoch_loss}")
+
+        return self.network, avg_epoch_loss
 
 
+    def train_all_epochs(self, dataloader):
+        """
+        Function to train the network for all the epochs
+        """
+        training_loss = []
+        start = time.time()
+
+        # training for all the epochs
+        for e in range(self.num_epochs):
+            trained_network, avg_epoch_loss = self.train_one_epoch(dataloader=dataloader, epoch=e)
+            training_loss.append(avg_epoch_loss)
 
 
+        end = time.time()
+        print(f"\nTraining Done. Time Taken to Train the network = {round((end - start)/60)} minutes.\n")
+        print(f"Training Loss at the end of {self.num_epochs} epochs is : {round(training_loss[-1], 6)}")
 
+        torch.save(self.network.state_dict(), "/home/agastya123/PycharmProjects/CIFAR-100/figures-results/cifarclassifier.pth")
 
-
-class Tester(nn.Module):
-    """
-    Testing the neural network 
-    """ 
-
-    def __init__(self):
-        super().__init__()
         
-    def test_model(self, dataloader):
-
-        """
-        """
-
-        images, labels = next(iter(dataloader))
-
-
-        pass 
+        return trained_network, training_loss 
 
 
 
 
-     
 
 
 
+
+            
+            
+
+
+
+
+    
 if __name__ == "__main__":
 
     sample_data = torch.randn(10, 100) 
@@ -86,5 +107,5 @@ if __name__ == "__main__":
         nn.LogSoftmax(dim=1)
     )
 
-    training = Trainer(num_epochs=100, learning_rate=0.001, momentum=0.9)
+    training = TrainTest(num_epochs=100, learning_rate=0.001, momentum=0.9)
     # training.train_network(network=sample_net, dataloader=, optimizer="SGD")

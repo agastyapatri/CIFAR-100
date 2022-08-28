@@ -95,14 +95,14 @@ class ConvolutionalNetwork(nn.Module):
 
 if __name__ == "__main__":
     # sample data of one batch of images.
-    testdata = torch.randn(64, 3, 32, 32)
+    testdata = torch.randn(128, 3, 32, 32)
     
     
     model = ConvolutionalNetwork(input_channels=3, output_size=100)
     
 
     CNN = model.network()
-    # print(CNN(testdata))
+    print(CNN(testdata))
 
 
     
