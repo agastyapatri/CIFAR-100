@@ -10,7 +10,7 @@ import torch.nn as nn
 import matplotlib.pyplot as plt
 
 # Custom Imports 1
-from src.traintest import Trainer, Tester
+from src.traintest import TrainTest
 from src.loadvis import Loader
 # Custom Imports 2
 from src.models import ConvolutionalNetwork
@@ -40,7 +40,13 @@ if __name__ == "__main__":
     trainloader, testloader = Loader(PATH=path, num_batches=128).getdata()
 
     # 2. Defining the Network 
-    model = ConvolutionalNetwork(input_channels=32, output_size=100)
+    model = ConvolutionalNetwork(input_channels=3, output_size=100)
+    CNN = model.network()
+
+    # 3. Training the Network 
+    traintest = TrainTest(network=CNN, num_epochs=100, learning_rate=1e-5, momentum=0.9)
+
+    trained_net, training_loss = traintest.train_all_epochs(dataloader=trainloader)
      
 
 
