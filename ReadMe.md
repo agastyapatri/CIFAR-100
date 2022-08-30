@@ -79,14 +79,28 @@ _Baseline Training Loss after the first training cycle of 100 epochs = 4.59. Thi
 
 1. **Reducing batch size, Increasing learning rate:**
     Batch size from 128 to 64, and Learning rate from 1e-5 to 1e-3 makes the network converge faster. 
+
         * Training Loss at the end of 100 epochs is : 0.015348
+  
         * Average Testing Loss for 157 batches is : 6.233311. 
 
-    Clearly, the network has overfit massively to the training data. The testing loss is actually _more_ than it was when the network was completely untrained. Nevertheless, performing well on the training data is not a bad start. Karpathy's advice is to pick a large enough model that overfits on the training data and then regularize. Who am I to disagree?
+    Clearly, the network has overfit massively to the training data. The testing loss is actually _more_ than it was when the network was completely untrained. Nevertheless, performing well on the training data is not a bad start. My initial plan was to increase the depth of the network to improve training performance, as every online treatment of this dataset uses a relatively more complex architecture in the context of transfer learning. Karpathy's advice is to pick a large enough model that overfits on the training data and then regularize. Who am I to disagree? 
+
+
+2. **Redudcing the learning rate:** Reducing the learning rate from 1e-3 to 1e-4 led to:
+   
+    * `Training Loss at the end of 100 epochs is : 2.13376`
     
-2. **Increasing the Depth of the network:**
-3. **Regularization**
-4.  
+    * `Average Testing Loss for 157 batches is : 3.06784`
+
+    Next, Finding an intermediate learning rate to balance the results
+
+
+3. **Regularization:** Adding dropout, weight decay etc.
+
+
+
+  
 
 
 
@@ -105,7 +119,7 @@ _Write about the results obtained. Should be of the form below:_
 
 
 ## **5. References**
-_A quasi exhaustive list of resources that guided this enterprise._
+_A quasi-exhaustive list of resources that guided this enterprise._
 1. [Microsoft Documentation on Training Image Classifiers](https://docs.microsoft.com/en-us/windows/ai/windows-ml/tutorials/pytorch-train-model)
 
 2. [PyTorch Documentation](https://pytorch.org/tutorials/recipes/recipes/defining_a_neural_network.html)
@@ -137,6 +151,18 @@ _A CNN is a class of neural networks defined as multilayered NNs designed to det
     _MaxPool layer will help us to ensure that the location of an object in an image will not affect the ability of the NN to detect specific features._
 
 5. **Regularization:** 
+   1. Getting More Data
+   2. Data Augmentation 
+   3. Creative Augmentation
+   4. Pretrain 
+   5. Stick with Supervised learning
+   6. smaller input dimensionality 
+   7. smaller model size
+   8. decrease batch size
+   9. Add Dropout 
+   10. Weight Decay 
+   11. **Early Stopping** Stop Training based on masured validation loss to catch the model as it is about to overfit. 
+   12. **Try a larger model**, after early stopping 
 
 
 

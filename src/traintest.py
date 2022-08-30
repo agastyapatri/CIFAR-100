@@ -41,7 +41,6 @@ class TrainTest(nn.Module):
         for idx, data in enumerate(dataloader):
             image_batch, label_batch = data 
             self.optim.zero_grad()
-            
             output = self.network(image_batch) 
             loss = self.loss_fun(output, label_batch)
             
@@ -51,14 +50,11 @@ class TrainTest(nn.Module):
 
             running_loss += loss.item()
             
-            
             # reporting after one epoch 
             if (idx + 1)%num_batches == 0:
                 # calculating average loss
                 avg_epoch_loss = running_loss / num_batches
                 print(f"Training Epoch: {epoch +1}, Average training loss = {avg_epoch_loss}")
-            
-
         return self.network, avg_epoch_loss
 
 

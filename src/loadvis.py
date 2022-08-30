@@ -11,6 +11,7 @@ from torch.utils.data import DataLoader
 import numpy as np
 import scipy
 import os
+import matplotlib.pyplot as plt 
 
 
 class Loader(nn.Module):
@@ -45,8 +46,41 @@ class Loader(nn.Module):
         trainloader = DataLoader(traindata, batch_size=self.num_batches, shuffle=True)
         testloader = DataLoader(testdata,  batch_size=self.num_batches, shuffle=False)
 
-
         return trainloader, testloader
+
+
+class Visualizer:
+    """
+    Class to visualize stuff
+    """
+
+    def __init__(self) -> None:
+        pass
+
+    def visualize_filter(self, conv):
+        """
+        method to plot the activation maps of the conv layer
+        """
+        depth, width, height = conv.size()
+        
+        plt.title("Acitvation Maps of the conv layer")
+        # fig, ax = plt.subplots(depth/2, depth/2)
+        # for row in range(depth/2):
+        #     for column in range(depth/2):
+        #         ax.plot()
+        
+        pass 
+        
+
+
+
+
+
+
+
+
+
+
 
 
 if __name__ == "__main__":
@@ -54,9 +88,8 @@ if __name__ == "__main__":
         Testing the class defined above.
     """        
     loader = Loader(PATH="/home/agastya123/PycharmProjects/CIFAR-100/data", num_batches = 64)
+    
 
-    
-    
     
 
 
