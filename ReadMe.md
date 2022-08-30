@@ -93,7 +93,7 @@ _Baseline Training Loss after the first training cycle of 100 epochs = 4.59. Thi
     
     * `Average Testing Loss for 157 batches is : 3.06784`
 
-    Next, Finding an intermediate learning rate to balance the results
+    With a learning rate of 2.5e-4, the training accuracy reaches ~95% at around epoch 60. Using 100 epochs arbitrarily over-trained the network. 
 
 
 3. **Regularization:** Adding dropout, weight decay etc.
@@ -163,6 +163,8 @@ _A CNN is a class of neural networks defined as multilayered NNs designed to det
    10. Weight Decay 
    11. **Early Stopping** Stop Training based on masured validation loss to catch the model as it is about to overfit. 
    12. **Try a larger model**, after early stopping 
+
+6. **Getting Labels:** Weird. The logsoftmax outputs of the CNN are of the shape (32 x 100), where each row is the logsoftmax output vector for each sample in the batch of 32. torch.argmax(dim=1) should be gettting the index of the largest value in the column, when I need the largest value in the row.
 
 
 

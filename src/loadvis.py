@@ -26,7 +26,16 @@ class Loader(nn.Module):
 
     def __str__(self):
         return f"Trainloader length = {len(self.getdata()[0])} | Testloader length = {len(self.getdata()[1])}"
+        
 
+
+    def labelmap(self):
+        """
+        Function that returns the labels of the dataset
+        """
+        idx = range(0, 100)
+
+        return idx 
 
 
     def getdata(self):
@@ -47,6 +56,12 @@ class Loader(nn.Module):
         testloader = DataLoader(testdata,  batch_size=self.num_batches, shuffle=False)
 
         return trainloader, testloader
+
+    def getanimage(self):
+        """
+        Function to get one image with the label 
+        """
+        pass 
 
 
 class Visualizer:
@@ -71,14 +86,6 @@ class Visualizer:
         
         pass 
         
-
-
-
-
-
-
-
-
 
 
 

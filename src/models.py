@@ -84,7 +84,8 @@ class ConvolutionalNetwork(nn.Module):
         cnn = nn.Sequential(
             CONV,
             nn.Flatten(),
-            FC
+            FC,
+            nn.LogSoftmax(dim=1)
             )
 
         return cnn
