@@ -134,38 +134,3 @@ _A quasi-exhaustive list of resources that guided this enterprise._
 
 
 
-
-## **Notes (Not to be included)**
-
-_A CNN is a class of neural networks defined as multilayered NNs designed to detect complex features in data. Below are a list of definintions_
-
-1. **The Convolutional Layer:** The Convolution layer is a main layer of a CNN which helps us detect features in images. Each of the layers has a number of channels to detect specific features in images, and a number of kernels to define the size of the detected feature. 
-   In this case, each image is a tensor with dimensions (3 x 32 x 32) 
-
-
-2. **Kernel:** The kernel defines the size of the image / detected feature by applying a filter to the image in question. The most general case would be the kernel being the size of the image. _In this case, the kernel size is 32, since each image is (32x32)_
-
-3. **Batch Normalization:** Defined as a layer in the NN that normalizes the input recieved from a previous layer. This is supposed to make the training of the NN faster and more stable.
-
-4. **Max Pooling:** An operation that calculates the maximum value of a patch of pixels, and uses it to create a downsampled feature map. It is usually used after a Convolutional Layer. Max Pooling is done in part ot help overfitting by providing an abstract form of representation. It also reduces the computational cost by reducing the number of parameters that need to be learned. 
-    _MaxPool layer will help us to ensure that the location of an object in an image will not affect the ability of the NN to detect specific features._
-
-5. **Regularization:** 
-   1. Getting More Data
-   2. Data Augmentation 
-   3. Creative Augmentation
-   4. Pretrain 
-   5. Stick with Supervised learning
-   6. smaller input dimensionality 
-   7. smaller model size
-   8. decrease batch size
-   9. Add Dropout 
-   10. Weight Decay 
-   11. **Early Stopping** Stop Training based on masured validation loss to catch the model as it is about to overfit. 
-   12. **Try a larger model**, after early stopping 
-
-6. **Getting Labels:** Weird. The logsoftmax outputs of the CNN are of the shape (32 x 100), where each row is the logsoftmax output vector for each sample in the batch of 32. torch.argmax(dim=1) should be gettting the index of the largest value in the column, when I need the largest value in the row.
-
-
-
-
